@@ -5,6 +5,7 @@ import userRoutes from "./routes/userRoutes.js";
 const app = express(); // Creates an Express application instance.
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
 app.use("/reminders", reminderRoutes);
 app.use("/users", userRoutes);
 

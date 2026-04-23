@@ -7,7 +7,8 @@ export const ReminderController = {
     res.send(`Reminder id: ${reminderId}`);
   },
   async createReminder(req, res) {
-    res.send("Create a new reminder");
+    const reminder = req.body.reminder;
+    res.send(reminder);
   },
   async updateReminder(req, res) {
     const reminderId = parseInt(req.params.id);
