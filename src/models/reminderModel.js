@@ -8,9 +8,11 @@ export const ReminderModel = {
     return result.rows;
   },
   async findById(id) {
-    const result = await db.query("SELECT * FROM reminders WHERE id = $1", [
-      id,
-    ]);
+    const result = await db.query(
+      `SELECT * FROM reminders 
+        WHERE id = $1`,
+      [id],
+    );
     return result.rows[0];
   },
   async create({ reminder, notes, userId }) {
@@ -28,7 +30,9 @@ export const ReminderModel = {
     return result.rows[0];
   },
   async delete(reminderId) {
-    const result = await db.query("DELETE FROM reminders $1", [reminderId]);
+    const result = await db.query("DELETE FROM reminders WHERE id = $1", [
+      reminderId,
+    ]);
     return result.rowCount;
   },
 };
