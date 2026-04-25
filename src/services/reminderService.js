@@ -1,4 +1,6 @@
+import ERROR_MESSAGES from "../constants/CustomErrors.js";
 import { ReminderModel } from "../models/reminderModel.js";
+import CustomError from "../utils/CustomError.js";
 
 export const ReminderService = {
   async getAllReminders() {
@@ -6,7 +8,7 @@ export const ReminderService = {
   },
   async getReminderById(reminderId) {
     const reminder = await ReminderModel.findById(reminderId);
-    if (!reminder) throw new Error("Reminder not found");
+    if (!reminder) throw new CustomError(ERROR_MESSAGES.ITEM_NOT_FOUND, 404);
     return reminder;
   },
   async createReminder(newReminder) {
@@ -36,7 +38,8 @@ export const ReminderService = {
     `;
 
     const updatedReminder = await ReminderModel.update(query, values);
-    if (!updatedReminder) throw new Error("Reminder not found");
+    if (!updatedReminder)
+      throw new CustomError(ERROR_MESSAGES.ITEM_NOT_FOUND, 404);
 
     return updatedReminder;
   },
@@ -44,14 +47,15 @@ export const ReminderService = {
     const authenticatedUserId = 1;
     const reminder = await ReminderModel.findById(reminderId);
 
-    if (!reminder) throw new Error("Reminder not found");
+    if (!reminder) throw new CustomError(ERROR_MESSAGES.ITEM_NOT_FOUND, 404);
 
     if (reminder.user_id !== authenticatedUserId)
-      throw new Error("You are not authorized to delete this reminder");
+      throw new CustomError(ERROR_MESSAGES.FORBIDDEN, 403);
 
     const rowCount = await ReminderModel.delete(reminderId);
 
-    if (rowCount === 0) throw new Error("Failed to delete a reminder");
+    if (rowCount === 0)
+      throw new CustomError(ERROR_MESSAGES.INTERNAL_SERVER_ERROR, 500);
 
     return { message: "Reminder deleted successfully" };
   },
