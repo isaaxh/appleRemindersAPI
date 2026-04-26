@@ -26,9 +26,9 @@ export const ReminderService = {
   async updateReminder(reminderId, newValues) {
     // buidling SQL dynamically
     const fields = Object.keys(newValues);
-    const setClauses = fields.map((key, index) => `${key} = $${index + 1}`);
-    const values = Object.values(newValues);
-    values.push(reminderId);
+    const setClauses = fields.map((key, index) => `${key} = $${index + 1}`); // dynamic query e.g. 'reminder = $1'
+    const values = Object.values(newValues); // values stored in each keys
+    values.push(reminderId); // --> ["buy water", "make sure it is warm", '']
 
     const query = `
         UPDATE reminders

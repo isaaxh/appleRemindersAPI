@@ -8,7 +8,6 @@ export function validateData(schema) {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        // console.log("validationMiddleware: ", error);
         const errorMessages = error.issues.map((issue) => ({
           message: `${issue.path.join(".")} is ${issue.message}`,
         }));
